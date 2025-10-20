@@ -55,7 +55,5 @@ setInterval(() => {
 	}
 	document.querySelector('name').innerText = time + ' seconds ' + wHt + ' pressure'; 
 	console.log(wHt);
-	
-}, 50);
-//2d array
 
+}, 50);

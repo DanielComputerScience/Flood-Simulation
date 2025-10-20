@@ -50,6 +50,27 @@
 	position: relative;
 	overflow: hidden;
 }
+.shallow {
+	width: 40px;
+	background-color: turquoise;
+	height: 10px;
+	position: relative;
+	overflow: hidden;
+}
+.submerged {	
+	width: 40px;
+	background-color: lightblue;
+	height: 10px;
+	position: absolute;
+	overflow: hidden;
+}
+.deep {
+	width: 40px;
+	background-color: blue;
+	height: 10px;
+	position: relative;
+	overflow: hidden;
+}
 .water {
 	bottom: 0;
 	position: absolute;
