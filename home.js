@@ -42,28 +42,46 @@ function pipeFlow() {
 
 	}
 }
+// home.js
+
 function generateMap() {
-	const roomElement = document.getElementById('sroom');
-	const gridElement = document.createElement('div');
-	var gridH = 0;
-	var gridW = 0;
-	var width = sroom.style.width;
-	var height = sroom.style.height;
-	var rows = height / 10;
-	var columns = width / 40;
-	for (let i = 0; i < rows; i++) {
-		
-		for (let j = 0; j < columns; j++) {
-			gridElement.classList.add('grid');
-			gridElement.style.bottom = gridH + 'px'; 
-			gridElement.style.left = '${gridW}px';
-			roomElement.appendChild(gridElement);
-			gridW += 40
-		}
-		gridH += 10
-	}
+  const roomElement = document.getElementById('sroom');
+  
+  // Check if the element was actually found before proceeding
+  if (!roomElement) {
+    console.error("Error: 'sroom' element not found.");
+    return; // Exit the function if the element doesn't exist
+  }
+
+  const computedStyle = window.getComputedStyle(roomElement);
+  const width = parseInt(computedStyle.width, 10);
+  const height = parseInt(computedStyle.height, 10);
+  const rows = height / 10;
+  const columns = width / 40;
+
+  let gridH = 0;
+
+  for (let i = 0; i < rows; i++) {
+    let gridW = 0;
+    for (let j = 0; j < columns; j++) {
+      const gridElement = document.createElement('div');
+      
+      gridElement.classList.add('grid');
+      gridElement.style.position = 'absolute';
+      gridElement.style.bottom = gridH + 'px';
+      gridElement.style.left = gridW + 'px';
+
+      roomElement.appendChild(gridElement);
+      gridW += 40;
+    }
+    gridH += 10;
+  }
 }
-generateMap()
+
+// Wait for the DOM to be fully loaded before running generateMap()
+document.addEventListener('DOMContentLoaded', generateMap);
+
+
 var grassArea = grassH * grassW;
 setInterval(() => {
 	if (flood == true) {
