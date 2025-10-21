@@ -50,12 +50,28 @@
 	position: relative;
 	overflow: hidden;
 }
+
+.sroom {
+	width: 720px;
+	background-color: grey;
+	height: 300px;
+	position: relative;
+	overflow: hidden;
+}
+.grid {
+	position: absolute;
+	height: 10px;
+	width: 40px;
+	background-color: green;
+}
+	
 .shallow {
 	width: 40px;
 	background-color: turquoise;
 	height: 10px;
-	position: relative;
+	position: absolute;
 	overflow: hidden;
+	bottom: 0;
 }
 .submerged {	
 	width: 40px;
@@ -68,8 +84,9 @@
 	width: 40px;
 	background-color: blue;
 	height: 10px;
-	position: relative;
-	overflow: hidden;
+	position: absolute;
+	bottom: 0;
+
 }
 .water {
 	bottom: 0;
