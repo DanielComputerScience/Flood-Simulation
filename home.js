@@ -65,14 +65,15 @@ function generateMap() {
     let gridW = 0;
     for (let j = 0; j < columns; j++) {
       const gridElement = document.createElement('div');
-      
+	
       gridElement.classList.add('grid');
       gridElement.style.position = 'absolute';
       gridElement.style.bottom = gridH + 'px';
       gridElement.style.left = gridW + 'px';
-
+	gridElement.id = String(i) + String(j);
       roomElement.appendChild(gridElement);
       gridW += 40;
+	    console.log(i + j);
     }
     gridH += 10;
   }
@@ -82,7 +83,52 @@ function generateMap() {
 document.addEventListener('DOMContentLoaded', generateMap);
 
 
-var grassArea = grassH * grassW;
+var grassArea = grassH * grassWi;
+const config = {
+	"rainfallRateperStep": 0.1,
+	"flowCoefficient": 0.025,
+	"totalSteps": 100
+};
+const map = {
+  "grid": [
+    // Row 0
+    [
+      { "elevation": 10, "waterLevel": 0, "isDrain": false },
+      { "elevation": 8,  "waterLevel": 0, "isDrain": false },
+      { "elevation": 10, "waterLevel": 0, "isDrain": false }
+    ],
+    // Row 1
+    [
+      { "elevation": 10, "waterLevel": 0, "isDrain": false },
+      { "elevation": 6,  "waterLevel": 0, "isDrain": true, "drainRate": 0.5 },
+      { "elevation": 10, "waterLevel": 0, "isDrain": false }
+    ],
+    // Row 2
+    [
+      { "elevation": 10, "waterLevel": 0, "isDrain": false },
+      { "elevation": 8,  "waterLevel": 0, "isDrain": false },
+      { "elevation": 10, "waterLevel": 0, "isDrain": false }
+    ]
+  ]
+};
+function runTimeStep(grid, config) {
+  const height = grid.length;
+  const width = grid[0].length;
+  const nextGrid = JSON.parse(JSON.stringify(grid));
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const cell = nextGrid[y][x];
+      
+      // A1. Add rain
+      cell.waterLevel += config.rainfallRatePerStep;
+
+      // A2. Apply drainage (THIS IS YOUR RESEARCH)
+      if (cell.isDrain) {
+        const drained = Math.min(cell.waterLevel, cell.drainRate);
+        cell.waterLevel += drained;
+      }
+    }
+  }
 setInterval(() => {
 	if (flood == true) {
 		wVolume += 100;
@@ -94,9 +140,9 @@ setInterval(() => {
 	if (wVolume > 0) {
 		wVolume -= grassArea * .02;
 	}
-	document.querySelector('name').innerText = time + ' seconds ' + wHt + ' pressure'; 
+	document.querySelector('name').innerText = time + ' seconds ' + " " + wHt + ' pressure'; 
 	console.log(wHt);
 	
 }, 50);
-//2d array
+
 
