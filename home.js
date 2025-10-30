@@ -129,6 +129,7 @@ function runTimeStep(grid, config) {
       }
     }
   }
+}
 setInterval(() => {
 	if (flood == true) {
 		wVolume += 100;
