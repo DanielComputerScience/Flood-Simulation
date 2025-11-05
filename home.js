@@ -83,7 +83,7 @@ function generateMap() {
 document.addEventListener('DOMContentLoaded', generateMap);
 
 
-var grassArea = grassH * grassWi;
+var grassArea = grassH * grassW;
 const config = {
 	"rainfallRateperStep": 0.1,
 	"flowCoefficient": 0.025,
