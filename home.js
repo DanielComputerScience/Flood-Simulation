@@ -4,16 +4,22 @@ var width = 30;
 var wVolume = 1800;
 var area = height * length;
 var wHt = wVolume / area;
-var flow = true;
+var flow = false;
 var time = 0;
 var flood = true;
 var grassH = 4;
 var grassW = 300;
 var pipeBlock = 1;
+var pause = false;
+var scolor = ""
 function startFlow() {
 	flow = !flow;
 }
 flowButton.addEventListener('click', startFlow);
+pauseButton.addEventListener('click', pauseFunc);
+function pauseFunc() {
+	pause = !pause;
+}
 function startFlood() {
 	flood = !flood;
 }
@@ -25,6 +31,41 @@ const sroom = document.querySelector('.sroom');
 grass.style.height = grassW + 'px';
 grass.style.height = grassH + 'px';
 drain.style.backgroundColor = "black";
+
+const roomElement = document.getElementById('sroom');
+
+// Check if the element was actually found before proceeding
+if (!roomElement) {
+	console.error("Error: 'sroom' element not found.");
+	// Exit the function if the element doesn't exist
+}
+
+const computedStyle = window.getComputedStyle(roomElement);
+const gwidth = parseInt(computedStyle.width, 10);
+const gheight = parseInt(computedStyle.height, 10);
+const rows = gheight / 10;
+const columns = gwidth / 40;
+
+let gridH = 0;
+
+for (let i = 0; i < rows; i++) {
+	let gridW = 0;
+	for (let j = 0; j < columns; j++) {
+		const gridElement = document.createElement('div');
+
+		gridElement.classList.add('grid');
+		gridElement.style.position = 'absolute';
+		gridElement.style.bottom = gridH + 'px';
+		gridElement.style.left = gridW + 'px';
+
+		gridElement.id = String(i) + "." + String(j);
+//		gridColor();
+		roomElement.appendChild(gridElement);
+		gridW += 40;
+		console.log(String(i) + String(j));
+	}
+	gridH += 10;
+}
 function pipeFlow() {
 	if (wHt >= 60) {
 		if (wHt >= 260 && pipeBlock > 10) {
@@ -43,44 +84,33 @@ function pipeFlow() {
 	}
 }
 // home.js
-
-function generateMap() {
-  const roomElement = document.getElementById('sroom');
-  
-  // Check if the element was actually found before proceeding
-  if (!roomElement) {
-    console.error("Error: 'sroom' element not found.");
-    return; // Exit the function if the element doesn't exist
-  }
-
-  const computedStyle = window.getComputedStyle(roomElement);
-  const width = parseInt(computedStyle.width, 10);
-  const height = parseInt(computedStyle.height, 10);
-  const rows = height / 10;
-  const columns = width / 40;
-
-  let gridH = 0;
-
-  for (let i = 0; i < rows; i++) {
-    let gridW = 0;
-    for (let j = 0; j < columns; j++) {
-      const gridElement = document.createElement('div');
+// 
+function gridColor() {
 	
-      gridElement.classList.add('grid');
-      gridElement.style.position = 'absolute';
-      gridElement.style.bottom = gridH + 'px';
-      gridElement.style.left = gridW + 'px';
-	gridElement.id = String(i) + String(j);
-      roomElement.appendChild(gridElement);
-      gridW += 40;
-	    console.log(i + j);
-    }
-    gridH += 10;
-  }
+//	const element = document.getElementById("0.0");
+//	element.style.backgroundColor = "red";
+	for (let i = 0; i < rows; i++) {
+		for (let j = 0; j < columns; j++) {
+			//console.log((String(i) + "." + String(j)));
+			const element = document.getElementById(String(i) + "." + String(j));
+			if (wHt > 150) {
+				element.style.backgroundColor = "blue";
+			}
+			else if (wHt > 50) {
+				element.style.backgroundColor = "lightblue";
+			}
+
+
+			else if (wHt > 5) {
+				element.style.backgroundColor = "red";
+			}
+			//	cell.style.color = "lightblue"
+		}
+	}
 }
 
 // Wait for the DOM to be fully loaded before running generateMap()
-document.addEventListener('DOMContentLoaded', generateMap);
+//document.addEventListener('DOMContentLoaded', generateMap);
 
 
 var grassArea = grassH * grassW;
@@ -131,7 +161,8 @@ function runTimeStep(grid, config) {
   }
 }
 setInterval(() => {
-	if (flood == true) {
+	if (pause != true) {
+		if (flood == true) {
 		wVolume += 100;
 	}
 	time += 1;
@@ -142,7 +173,10 @@ setInterval(() => {
 		wVolume -= grassArea * .02;
 	}
 	document.querySelector('name').innerText = time + ' seconds ' + " " + wHt + ' pressure'; 
-	console.log(wHt);
+	gridColor();
+
+		console.log(wHt);
+	}
 	
 }, 50);
 
