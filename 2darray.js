@@ -38,76 +38,76 @@ const map = {
  * It simulates one "tick" of time.
  */
 function runTimeStep(grid, config) {
-  const height = grid.length;
-  const width = grid[0].length;
+	const height = grid.length;
+	const width = grid[0].length;
 
-  // We need to write changes to a *new* grid to avoid
-  // one cell's change affecting its neighbor in the *same* step.
-  // This is a "deep copy" of the grid state.
-  const nextGrid = JSON.parse(JSON.stringify(grid));
+	// We need to write changes to a *new* grid to avoid
+	// one cell's change affecting its neighbor in the *same* step.
+	// This is a "deep copy" of the grid state.
+	const nextGrid = JSON.parse(JSON.stringify(grid));
 
-  // --- STEP A: RAINFALL & DRAINAGE ---
-  for (let y = 0; y < height; y++) {
-    for (let x = 0; x < width; x++) {
-      const cell = nextGrid[y][x];
-      
-      // A1. Add rain
-      cell.waterLevel += config.rainfallRatePerStep;
+	// --- STEP A: RAINFALL & DRAINAGE ---
+	for (let y = 0; y < height; y++) {
+		for (let x = 0; x < width; x++) {
+			const cell = nextGrid[y][x];
 
-      // A2. Apply drainage (THIS IS YOUR RESEARCH)
-      if (cell.isDrain) {
-        const drained = Math.min(cell.waterLevel, cell.drainRate);
-        cell.waterLevel -= drained;
-      }
-    }
-  }
+			// A1. Add rain
+			cell.waterLevel += config.rainfallRatePerStep;
 
-  // --- STEP B: WATER FLOW (THE HARD PART) ---
-  for (let y = 0; y < height; y++) {
-    for (let x = 0; x < width; x++) {
-      const currentCell = grid[y][x]; // Read from the *original* grid
-      const nextCell = nextGrid[y][x]; // Write to the *new* grid
+			// A2. Apply drainage (THIS IS YOUR RESEARCH)
+			if (cell.isDrain) {
+				const drained = Math.min(cell.waterLevel, cell.drainRate);
+				cell.waterLevel -= drained;
+			}
+		}
+	}
 
-      const totalHeight = currentCell.elevation + currentCell.waterLevel;
+	// --- STEP B: WATER FLOW (THE HARD PART) ---
+	for (let y = 0; y < height; y++) {
+		for (let x = 0; x < width; x++) {
+			const currentCell = grid[y][x]; // Read from the *original* grid
+			const nextCell = nextGrid[y][x]; // Write to the *new* grid
 
-      // Define neighbors (check for map edges)
-      const neighbors = [];
-      if (y > 0) neighbors.push(grid[y - 1][x]); // North
-      if (y < height - 1) neighbors.push(grid[y + 1][x]); // South
-      if (x > 0) neighbors.push(grid[y][x - 1]); // West
-      if (x < width - 1) neighbors.push(grid[y][x + 1]); // East
+			const totalHeight = currentCell.elevation + currentCell.waterLevel;
 
-      for (const neighbor of neighbors) {
-        const neighborTotalHeight = neighbor.elevation + neighbor.waterLevel;
-        
-        // If our cell is higher than the neighbor
-        if (totalHeight > neighborTotalHeight) {
-          const heightDifference = totalHeight - neighborTotalHeight;
-          
-          // Calculate how much water to move
-          // This simple rule moves 25% of the "excess" water
-          let flowAmount = heightDifference * config.flowCoefficient;
-          
-          // Don't flow more water than we have
-          flowAmount = Math.min(flowAmount, nextCell.waterLevel);
+			// Define neighbors (check for map edges)
+			const neighbors = [];
+			if (y > 0) neighbors.push(grid[y - 1][x]); // North
+			if (y < height - 1) neighbors.push(grid[y + 1][x]); // South
+			if (x > 0) neighbors.push(grid[y][x - 1]); // West
+			if (x < width - 1) neighbors.push(grid[y][x + 1]); // East
 
-          // This logic is simplified. A real model would distribute
-          // the flow among all lower neighbors.
-          
-          // Update the *next* grid state
-          nextCell.waterLevel -= flowAmount;
-          
-          // Note: This is an imperfect flow model, as the neighbor's
-          // water level isn't updated *at the same time*.
-          // A better model would calculate all flows first, then apply them.
-          // But this gives you the basic idea.
-        }
-      }
-    }
-  }
-  
-  // Return the new state of the world for the next step
-  return nextGrid;
+			for (const neighbor of neighbors) {
+				const neighborTotalHeight = neighbor.elevation + neighbor.waterLevel;
+
+				// If our cell is higher than the neighbor
+				if (totalHeight > neighborTotalHeight) {
+					const heightDifference = totalHeight - neighborTotalHeight;
+
+					// Calculate how much water to move
+					// This simple rule moves 25% of the "excess" water
+					let flowAmount = heightDifference * config.flowCoefficient;
+
+					// Don't flow more water than we have
+					flowAmount = Math.min(flowAmount, nextCell.waterLevel);
+
+					// This logic is simplified. A real model would distribute
+					// the flow among all lower neighbors.
+
+					// Update the *next* grid state
+					nextCell.waterLevel -= flowAmount;
+
+					// Note: This is an imperfect flow model, as the neighbor's
+					// water level isn't updated *at the same time*.
+					// A better model would calculate all flows first, then apply them.
+					// But this gives you the basic idea.
+				}
+			}
+		}
+	}
+
+	// Return the new state of the world for the next step
+	return nextGrid;
 }
 
 // --- 3. Running the Simulation ---
@@ -116,11 +116,11 @@ console.log(map.grid[1][1].waterLevel); // The drain cell
 
 let currentGrid = map.grid;
 for (let i = 0; i < config.totalSteps; i++) {
-  currentGrid = runTimeStep(currentGrid, config);
-  
-  if (i % 10 === 0) {
-    console.log(`Step ${i}: Drain cell water level: ${currentGrid[1][1].waterLevel.toFixed(2)}`);
-  }
+	currentGrid = runTimeStep(currentGrid, config);
+
+	if (i % 10 === 0) {
+		console.log(`Step ${i}: Drain cell water level: ${currentGrid[1][1].waterLevel.toFixed(2)}`);
+	}
 }
 
 console.log("--- FINAL STATE ---");

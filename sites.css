@@ -64,29 +64,44 @@
 	width: 38px;
 	background-color: green;
 }
+.button-container {
+  display: flex;
+  /* Optional: Add space between the buttons */
+  gap: 10px;
+  /* Optional: Center the buttons within the container */
+  justify-content: center;
+}
+
 	
 .shallow {
 	width: 40px;
 	background-color: turquoise;
 	height: 10px;
-	position: absolute;
+/*	position: absolute;*/
 	overflow: hidden;
-	bottom: 0;
+/*	bottom: 0; */
 }
 .submerged {	
 	width: 40px;
 	background-color: lightblue;
 	height: 10px;
-	position: absolute;
+/*	position: absolute; */
 	overflow: hidden;
+/*	bottom: 0; */
 }
 .deep {
 	width: 40px;
-	background-color: blue;
+	background-color: black;
 	height: 10px;
-	position: absolute;
-	bottom: 0;
+/*	position: absolute;
+	bottom: 0; */
 
+}
+table, th, td {
+  width: 80%;
+  color: white;
+  font-size: 20px;
+	border:1px solid black;
 }
 .water {
 	bottom: 0;

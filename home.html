@@ -2,62 +2,84 @@
 <!DOCTYPE html>
 <!-- Website - www.codingnepalweb.com -->
 <html lang="en">
-  <head>
-	  <!--    <meta http-equiv="pragma" content="no-cache"> -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Water simulator</title>
-  </head>
-  <body>
-    <br>
-    <div class="box">	
-	    <aa> Flood Sim</aa>
-	    <a href="Demo.html">Demo</a>
-	    <a href="Daniel.html">Elijah Daniel Williams</a>
-      <br>
-    </div>
-    <br>
-    <div class="box">
-      <br>
-      <h1>Water Simulation</h1>
-      <br>
-      <div class="room">
-	      <div class="water">
-	     
-	      </div>
-	      <div class="drain"> </div>
-	      <div class="grass"> </div>
-      </div>
-	<br>
-    </div>
-    <br>
-    <div class="box">
+	<head>
+		<!--    <meta http-equiv="pragma" content="no-cache"> -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Water simulator</title>
+	</head>
+	<body>
+		<br>
+		<div class="box">	
+			<aa> Flood Sim</aa>
+			<a href="Demo.html">Demo</a>
+			<a href="Daniel.html">Elijah Daniel Williams</a>
+			<br>
+		</div>
+		<br>
+		<div class="box">
+			<br>
+			<h1>Water Simulation</h1>
+			<br>
+			<div class="room">
+				<div class="water">
 
-    <button id="flowButton">Flow Button</button>>
-    <button id="floodButton">Flood Button</button>>
-    <button id="pauseButton">Pause Button</button>>
-    <br>
-    <aa> Key </aa>
-    <h1> Submerged depth</h1>
-    <div class="shallow"> </div>
-    <div class="submerged"> </div>
-    <div class="deep"> </div>
-    </div>
-    <br>
-    <div class="box">
-      <br>
-      <h1> Stats</h1>
-      <name> <name>
-      <br>
-    </div>
-    <br>
-    <div class="box">
-	    <br>
-	    <div class="sroom"  id="sroom">
-	    </div>
-	    <br>
-    </div>
-  <br>
-  </body>
-  <link rel="stylesheet" href="sites.css" />
-  <script src="home.js" defer></script>	
+				</div>
+				<div class="drain"> </div>
+				<div class="grass"> </div>
+			</div>
+			<br>
+		</div>
+		<br>
+
+		<br>
+		<div class="box">
+			<br>
+			<h1> Stats</h1>
+			<name> <name>
+			<br>
+		</div>
+		<br>
+		<div class="box">
+			<br>
+			<div class="sroom"  id="sroom">
+			</div>
+			<br>
+
+			<div class="button-container">
+
+
+				<button id="flowButton">Flow Button</button>>
+				<button id="floodButton">Flood Button</button>>
+				<button id="pauseButton">Pause Button</button>>
+				<button id="loadButton">Load Button</button>>
+				<button id="endButton">End Button</button>>
+			</div>
+			<br>
+			<aa> Key </aa>
+			<div class="button-container">
+
+				<h1> Submerged depth</h1>
+				<div class="shallow"> </div>
+				<div class="submerged"> </div>
+				<div class="deep"> </div> 
+				<br>
+			</div>
+			<table>
+			<br>
+			<tr>
+				<th> Run</th>
+				<th> Max</th>
+				<th> Time</th>
+			</tr>
+			<tr>
+				<td> 01</td>
+				<td> 100</td>
+				<td> 20</td>
+			</tr>
+<tbody id="tableBody">
+			</table>
+			<br>
+	</body>
+	<link rel="stylesheet" href="sites.css" />
+	<script src="home.js" defer></script>	
 </html>
